@@ -1,3 +1,4 @@
+import contextlib
 import functools
 import os
 import signal
@@ -94,10 +95,8 @@ def run_command(command: str) -> str:
         output, _ = process.communicate(timeout=config.COMMAND_TIMEOUT)
     except subprocess.TimeoutExpired:
         if os.name == "posix":
-            try:
+            with contextlib.suppress(ProcessLookupError):
                 os.killpg(process.pid, signal.SIGKILL)
-            except ProcessLookupError:
-                pass
         else:
             process.kill()
         process.communicate()
