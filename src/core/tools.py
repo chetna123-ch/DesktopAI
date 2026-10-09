@@ -79,9 +79,12 @@ def adb_required(func):
 @tool
 def run_command(command: str) -> str:
     """Run a shell command on the local Linux machine."""
-    if config.COMMAND_SAFETY_CHECK_ENABLED and is_dangerous_command(command):
-        if not overlay.request_command_confirmation(command):
-            return "Execution cancelled by user"
+    if (
+        config.COMMAND_SAFETY_CHECK_ENABLED
+        and is_dangerous_command(command)
+        and not overlay.request_command_confirmation(command)
+    ):
+        return "Execution cancelled by user"
 
     process = subprocess.Popen(
         command,
