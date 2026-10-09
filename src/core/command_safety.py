@@ -48,8 +48,4 @@ def is_dangerous_command(command: str, patterns: list[str] | None = None) -> boo
     if any(pattern.search(command) for pattern in compiled_patterns):
         return True
 
-    return any(
-        pattern.search(segment)
-        for segment in _split_chained_commands(command)
-        for pattern in compiled_patterns
-    )
+    return any(pattern.search(segment) for segment in _split_chained_commands(command) for pattern in compiled_patterns)

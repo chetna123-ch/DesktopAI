@@ -229,11 +229,13 @@ def mirror_mobile(
     if source == "screen":
         subprocess.Popen("scrcpy", shell=True)
         return "Starting mobile screen mirroring using scrcpy."
+
     if source == "camera":
-        if not camera_facing or camera_facing not in ["front", "back"]:
+        if camera_facing not in ("front", "back"):
             camera_facing = "back"
         subprocess.Popen(["scrcpy", "--video-source=camera", f"--camera-facing={camera_facing}"])
         return f"Starting mobile camera {camera_facing} mirroring using scrcpy."
+
     return "Invalid source. Use 'screen' or 'camera'."
 
 

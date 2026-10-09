@@ -229,17 +229,14 @@ class TransparentOverlayQt(QMainWindow):
             dialog = QMessageBox(self)
             dialog.setWindowTitle("Confirm Command Execution")
             dialog.setText(
-                "This command may be dangerous. Execute it?\n\n"
-                f"{command}\n\nClick Yes or say “yes” or “confirm”."
+                f"This command may be dangerous. Execute it?\n\n{command}\n\nClick Yes or say “yes” or “confirm”."
             )
             dialog.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
             dialog.setDefaultButton(QMessageBox.No)
             dialog.setEscapeButton(QMessageBox.No)
             dialog.setWindowModality(Qt.NonModal)
             dialog.buttonClicked.connect(
-                lambda button: self._resolve_command_confirmation(
-                    request, button == dialog.button(QMessageBox.Yes)
-                )
+                lambda button: self._resolve_command_confirmation(request, button == dialog.button(QMessageBox.Yes))
             )
             dialog.finished.connect(lambda _result: self._resolve_command_confirmation(request, False))
             self._confirmation_dialog = dialog
